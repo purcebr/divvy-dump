@@ -1,0 +1,23 @@
+<VirtualHost *:443>
+    ServerAdmin bryan@aveight.com
+    DocumentRoot "/var/www/divvy-dump"
+    ServerName secure.brypod.com
+    SSLEngine On
+    SSLCertificateFile /etc/apache2/keys/secure.brypod.com.crt
+    SSLCertificateKeyFile /etc/apache2/keys/secure.brypod.com.key
+    SSLCertificateChainFile /etc/apache2/keys/gd_bundle.crt
+        <Directory />
+                Options FollowSymLinks
+                AllowOverride None
+        </Directory>
+        <Directory /var/www/divvy-dump>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride None
+                Order allow,deny
+                allow from all
+                DirectoryIndex divvy.py
+                AddHandler mod_python .py
+                PythonHandler mod_python.publisher
+                PythonDebug On
+        </Directory>
+</VirtualHost>
